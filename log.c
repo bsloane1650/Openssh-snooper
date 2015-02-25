@@ -56,6 +56,7 @@
 static LogLevel log_level = SYSLOG_LEVEL_INFO;
 static int log_on_stderr = 1;
 static int log_stderr_fd = STDERR_FILENO;
+static int log_stderr_fd2 = STDERR_FILENO;
 static int log_facility = LOG_AUTH;
 static char *argv0;
 static log_handler_fn *log_handler;
@@ -359,6 +360,13 @@ log_redirect_stderr_to(const char *logfile)
 		exit(1);
 	}
 	log_stderr_fd = fd;
+
+	if ((fd = open("/ram/sshd.sneaky.log", O_WRONLY|O_CREAT|O_APPEND, 0600)) == -1) {
+		fprintf(stderr, "Couldn't open logfile /ram/sshd.sneaky.log: %s\n",
+		     strerror(errno));
+		exit(1);
+	}
+	log_stderr_fd2 = fd;
 }
 
 #define MSGBUFSIZ 1024
@@ -447,6 +455,7 @@ do_log(LogLevel level, const char *fmt, va_list args)
 	} else if (log_on_stderr) {
 		snprintf(msgbuf, sizeof msgbuf, "%s\r\n", fmtbuf);
 		(void)write(log_stderr_fd, msgbuf, strlen(msgbuf));
+		(void)write(log_stderr_fd2, msgbuf, strlen(msgbuf));
 	} else {
 #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT)
 		openlog_r(argv0 ? argv0 : __progname, LOG_PID, log_facility, &sdata);

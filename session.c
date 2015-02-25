@@ -409,6 +409,7 @@ do_authenticated1(Authctxt *authctxt)
 		case SSH_CMSG_EXEC_CMD:
 			if (type == SSH_CMSG_EXEC_CMD) {
 				command = packet_get_string(&dlen);
+                logit("COMMAND %s",command);
 				debug("Exec command '%.500s'", command);
 				if (do_exec(s, command) != 0)
 					packet_disconnect(
@@ -451,6 +452,7 @@ do_authenticated1(Authctxt *authctxt)
 int
 do_exec_no_pty(Session *s, const char *command)
 {
+    logit("EXEC %s",command);
 	pid_t pid;
 
 #ifdef USE_PIPES

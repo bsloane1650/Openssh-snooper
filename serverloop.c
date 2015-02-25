@@ -847,7 +847,6 @@ server_loop2(Authctxt *authctxt)
 	max_fd = MAX(max_fd, notify_pipe[0]);
 
 	server_init_dispatch();
-
 	for (;;) {
 		process_buffered_input_packets();
 

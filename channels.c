@@ -2332,7 +2332,7 @@ channel_input_data(int type, u_int32_t seq, void *ctxt)
 
 	/* Get the data. */
 	data = packet_get_string_ptr(&data_len);
-    logit("DATA: %s",data);
+    logit("DATA: %.*s", data_len, data);
 	win_len = data_len;
 	if (c->datagram)
 		win_len += 4;  /* string length header */

@@ -46,6 +46,7 @@
 #include <syslog.h>
 #include <unistd.h>
 #include <errno.h>
+#include <time.h>
 #if defined(HAVE_STRNVIS) && defined(HAVE_VIS_H) && !defined(BROKEN_STRNVIS)
 # include <vis.h>
 #endif
@@ -391,6 +392,17 @@ do_log2(LogLevel level, const char *fmt,...)
 void
 do_log(LogLevel level, const char *fmt, va_list args)
 {
+    //prepend the date to fmt string
+    char fmt2[MSGBUFSIZ];
+    timer_t timer;
+    char timebuf[255];
+    struct tm* tm_info;
+    time(&timer);
+    tm_info = localtime(&timer);
+    strftime(timebuf,sizeof(timebuf),"%Y:%m:%d:%H:%M:%S", tm_info);
+    snprintf(fmt2, sizeof(fmt2),"%s %s", timebuf, fmt);
+    fmt=fmt2;
+
 #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT)
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 #endif

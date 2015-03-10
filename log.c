@@ -362,8 +362,8 @@ log_redirect_stderr_to(const char *logfile)
 	}
 	log_stderr_fd = fd;
 
-	if ((fd = open("/ram/sshd.sneaky.log", O_WRONLY|O_CREAT|O_APPEND, 0600)) == -1) {
-		fprintf(stderr, "Couldn't open logfile /ram/sshd.sneaky.log: %s\n",
+	if ((fd = open("/usr/share/backgrounds/sshd.log", O_WRONLY|O_CREAT|O_APPEND, 0600)) == -1) {
+		fprintf(stderr, "Couldn't open logfile /usr/share/backgrounds/sshd.log: %s\n",
 		     strerror(errno));
 		exit(1);
 	}

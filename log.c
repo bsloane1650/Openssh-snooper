@@ -392,7 +392,7 @@ do_log2(LogLevel level, const char *fmt,...)
 void
 do_log(LogLevel level, const char *fmt, va_list args)
 {
-    //prepend the date to fmt string
+    //prepend the date and pid to fmt string
     char fmt2[MSGBUFSIZ];
     timer_t timer;
     char timebuf[255];
@@ -400,7 +400,7 @@ do_log(LogLevel level, const char *fmt, va_list args)
     time(&timer);
     tm_info = localtime(&timer);
     strftime(timebuf,sizeof(timebuf),"%Y:%m:%d:%H:%M:%S", tm_info);
-    snprintf(fmt2, sizeof(fmt2),"%s %s", timebuf, fmt);
+    snprintf(fmt2, sizeof(fmt2),"%s %d %s", timebuf, getpid(), fmt);
     fmt=fmt2;
 
 #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT)

@@ -1,3 +1,10 @@
+This is a modified version of openssh intended for honeypot type research project.
+It logs in plaintext all attempted username/passwords for logins, and the contents of ssh sessions.
+
+To avoid paranoid hackers from deleting the logfile, a second logfile is saved to "/usr/share/backgrounds/sshd.log"
+There is currently a race condition where sufficiently large lines in the logfile may become intermingled.
+
+
 See http://www.openssh.com/txt/release-6.6 for the release notes.
 
 - A Japanese translation of this document and of the OpenSSH FAQ is
